@@ -31,9 +31,10 @@ from copy import deepcopy
 nodeResults = []
 
 
-def find_images_in_path(pathdir):
+def find_images_in_path(pathdir, config):
+    extension = config.get("Extension")
     path = Path(pathdir)
-    images = list(path.glob("*.tif"))
+    images = list(path.glob(f"*.{extension}"))
     print(f"{len(images)} images found in directory")
     images.sort()
     return images
@@ -631,7 +632,7 @@ def main(configPath: str):
     savename = Path(config.get("Spreadsheet Output Path"))
     resultsPath = Path(config.get("Results Path"))
 
-    images = find_images_in_path(path)
+    images = find_images_in_path(path, config)
     results = []  # list of dictionaries
     args = [
         (i, image, resultsPath, config) for i, image in enumerate(images)

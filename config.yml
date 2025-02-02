@@ -1,4 +1,5 @@
 # Image Import,Segmentation and Blur
+Extension: jpg
 Blur Sigma: 0.75
 bw mode: Human Eye Level
 bw val: ''
