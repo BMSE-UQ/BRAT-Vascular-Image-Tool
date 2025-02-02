@@ -621,15 +621,15 @@ async def run_batch():
     pass
 
 
-def main(path: str, savename: str, configPath: str):
+def main(configPath: str):
     startTime = time()
-    configPath = "C:\\Users\\harry\\Documents\\Thesis\\Vascular-Tool\\config.yml"
+    configPath = Path(configPath)
     with open(configPath, "r") as file:
         config = yaml.safe_load(file)
 
-    path = config.get("Img Path")
-    savename = config.get("Spreadsheet Output Path")
-    resultsPath = config.get("Results Path")
+    path = Path(config.get("Img Path"))
+    savename = Path(config.get("Spreadsheet Output Path"))
+    resultsPath = Path(config.get("Results Path"))
 
     images = find_images_in_path(path)
     results = []  # list of dictionaries

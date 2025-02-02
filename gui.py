@@ -9,6 +9,7 @@ import os
 import sys
 import datetime
 from skimage.io import imsave
+import argparse
 
 analysisSettings = ['Blur Sigma', 'Min Hole Size', 'Min Object Size', 'Min Spur Line Length',
                             'Min Length for Internal Line', 'Minimum Vessel Width']
@@ -18,7 +19,7 @@ saveAndDisplaySettings = ['Save Image', 'Show Image']
 
 
 #Import components from vascular tool
-from vascular_tool import  run_img, worker_process, find_images_in_path, save_results_to_csv
+from vascular_tool import  run_img, worker_process, find_images_in_path, save_results_to_csv, main
 
 class SettingFrame(ctk.CTkScrollableFrame):
     def __init__(self, master):
@@ -579,7 +580,7 @@ class App(ctk.CTk):
             # Handle exceptions from future processing
             FailurePopup(self, str(e))
 
-        # Continue polling if there are tasks remaining
+        # Continue polling if there ar e tasks remaining
         if self.future_to_arg:
             self.after(100, self.check_tasks)  # Poll again after 100ms (adjust as needed)
         else:
@@ -593,6 +594,19 @@ class App(ctk.CTk):
         FailurePopup(self, "Finished and Saved Successfully")
 
 if __name__ == '__main__':
-    freeze_support()
-    app = App()
-    app.mainloop()
+    parser = argparse.ArgumentParser(
+        description="Vascular Tool for Microscopy Analysis"
+    )
+    parser.add_argument("-c", "--config", help="Config YAML file path")
+    args = parser.parse_args()
+
+    if args.config == None:
+        print("FIX THIS")
+        main(".\\config.yml")
+        # freeze_support()
+        # app = App()
+        # app.mainloop()
+    else:
+        main(args.config)
+    
+   

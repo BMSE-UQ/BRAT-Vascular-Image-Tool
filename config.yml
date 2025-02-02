@@ -1,5 +1,10 @@
-# Image Import and Blur
-Blur Sigma: 0.5
+# Image Import,Segmentation and Blur
+Blur Sigma: 0.75
+bw mode: Human Eye Level
+bw val: ''
+segmentation mode: Otsu Local Adaptive
+segmentatation val: '601'
+
 
 #Small Object and Hole Removal
 Min Hole Size: 300 #pixels
@@ -15,7 +20,7 @@ Save Image: True
 Show Image: False
 
 #Path and Savename
-Img Path: "C:\\Users\\harry\\Downloads\\Tester\\"
+Img Path: "C:\\Users\\harry\\Downloads\\SMOL"
 Results Path: ./Results/
 Spreadsheet Output Path: .\\17_05_24_create_STATS.csv
 
