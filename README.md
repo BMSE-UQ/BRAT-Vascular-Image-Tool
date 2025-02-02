@@ -17,5 +17,11 @@ BRAT is a tool for analysis of microscope images of micro-vascular networks and 
 |avgVesselLength|Average lenght of all vessels in a given image|
 |avg Diameter|Average diameter of all vessels in a given image|
 
+## BRAT CLI
+To increase speed without the overhead of the gui, the BRAT CLI can be used to increase processing speed. To use BRAT CLI, simply setup a config and save it. Then run the following command:
+```
+brat.exe --config \\path\\to\\config
+```
+
 ## Issues With BRAT
 Please report any bugs/issues/suggestions found with BRAT via our [Github issues page](https://github.com/BMSE-UQ/BRAT-Vascular-Image-Tool/issues).
