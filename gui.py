@@ -146,33 +146,40 @@ class App(ctk.CTk):
         count = len(saveAndDisplaySettings)
         #Add additional options for selecting how to process image
         #options to change mode for bw selection
-        textTemp = ctk.CTkLabel(self.processing_scroll, text = "BW Conversion Method")
+        textTemp = ctk.CTkLabel(self.processing_scroll, text = "File Extension")
         textTemp.grid(row = count, column = 0, padx = 10, pady = 10, sticky = 'ew')
+        textTemp.grid(row = count, column = 0, padx = 10, pady = 10, sticky = 'ew')
+
+        self.fileExtension = ctk.CTkEntry(self.processing_scroll)
+        self.fileExtension.grid(row = count, column = 1, padx=10, pady=10, sticky ='ew')
+
+        textTemp = ctk.CTkLabel(self.processing_scroll, text = "BW Conversion Method")
+        textTemp.grid(row = count + 1, column = 0, padx = 10, pady = 10, sticky = 'ew')
 
         self.bw_select = ctk.CTkOptionMenu(self.processing_scroll, dynamic_resizing= False,
                                              values = ["Average", "Human Eye Level", "Individual Channel", "BW Input"],
                                              command = self.bw_change
                                             )
-        self.bw_select.grid(row = count, column = 1, padx = 10, pady = 10, sticky = 'ew')
+        self.bw_select.grid(row = count + 1, column = 1, padx = 10, pady = 10, sticky = 'ew')
         self.bwSelectText = ctk.CTkLabel(self.processing_scroll, text = "")
-        self.bwSelectText.grid(row = count + 1, column =0, padx = 10, pady = 10, sticky = 'ew')
+        self.bwSelectText.grid(row = count + 2, column =0, padx = 10, pady = 10, sticky = 'ew')
         self.bwSelectInputVal = ctk.CTkEntry(self.processing_scroll)
-        self.bwSelectInputVal.grid(row = count + 1, column = 1, padx=10, pady=10, sticky ='ew')
+        self.bwSelectInputVal.grid(row = count + 2, column = 1, padx=10, pady=10, sticky ='ew')
         #options for segmentation
         textTemp = ctk.CTkLabel(self.processing_scroll, text = "Segmentation Method")
-        textTemp.grid(row = count + 2, column = 0, padx=10, pady=10, sticky ='ew')
+        textTemp.grid(row = count + 3, column = 0, padx=10, pady=10, sticky ='ew')
         self.seg_select = ctk.CTkOptionMenu(self.processing_scroll, dynamic_resizing= False,
                                             values = ["Global Threshold", "Otsu Global Adaptive", "Otsu Local Adaptive"],
                                             command = self.seg_change)
-        self.seg_select.grid(row = count + 2, column = 1, padx=10, pady=10, sticky ='ew')
+        self.seg_select.grid(row = count + 3, column = 1, padx=10, pady=10, sticky ='ew')
         self.segSelectText = ctk.CTkLabel(self.processing_scroll, text = "")
-        self.segSelectText.grid(row = count + 3, column = 0, padx=10, pady=10, sticky = 'ew')
+        self.segSelectText.grid(row = count + 4, column = 0, padx=10, pady=10, sticky = 'ew')
         self.segSelectInputVal = ctk.CTkEntry(self.processing_scroll)
-        self.segSelectInputVal.grid(row = count + 3, column = 1, padx=10, pady=10, sticky = 'ew')
+        self.segSelectInputVal.grid(row = count + 4, column = 1, padx=10, pady=10, sticky = 'ew')
         
         #Add button for save location, default to current directory
         self.location_button = ctk.CTkButton(self.processing_scroll, text = "Save Location", command=self.set_save_path)
-        self.location_button.grid(row = count + 4, column = 1, padx = 10, pady =10, sticky = 'ew')
+        self.location_button.grid(row = count + 5, column = 1, padx = 10, pady =10, sticky = 'ew')
         #Set Results location to the current folder as default
         self.save_path = Path.cwd()
 
@@ -266,7 +273,9 @@ class App(ctk.CTk):
 
 
     def update_batch(self, path):
-        self.batch_full_path = find_images_in_path(path)
+        self.status_table.delete(*self.status_table.get_children())
+        self.config_from_box()
+        self.batch_full_path = find_images_in_path(path, self.config)
         itemNames = [os.path.basename(item) for item in self.batch_full_path]
 
         #Add names to status as a dictionary
@@ -336,6 +345,7 @@ class App(ctk.CTk):
         self.config["bw val"] = self.bwSelectInputVal.get()
         self.config["segmentation mode"] = self.seg_select.get()
         self.config["segmentatation val"] = self.segSelectInputVal.get()
+        self.config["Extension"] = self.fileExtension.get()
         
 
     def load_settings(self):        
@@ -385,6 +395,8 @@ class App(ctk.CTk):
             self.seg_change(config_loaded["segmentation mode"])
             self.bw_select.set(config_loaded["bw mode"])
             self.seg_select.set(config_loaded["segmentation mode"])
+            self.fileExtension.insert(0, config_loaded["Extension"])
+            
         except IndexError as e:
             pass
         except Exception as e:
@@ -526,6 +538,7 @@ class App(ctk.CTk):
         self.batch_results = []
         self.config['Save Image'] = True
         self.config['Show Image'] = False
+        print(self.config)
         self.update_progress_bar(0)
 
         try:
@@ -601,11 +614,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.config == None:
-        print("FIX THIS")
-        main(".\\config.yml")
-        # freeze_support()
-        # app = App()
-        # app.mainloop()
+        freeze_support()
+        app = App()
+        app.mainloop()
     else:
         main(args.config)
     
