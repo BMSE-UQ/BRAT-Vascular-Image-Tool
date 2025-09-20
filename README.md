@@ -2,7 +2,7 @@
 BRAT is a tool for analysis of microscope images of micro-vascular networks and similar structures. Its role is to take images of these structures and create statistics that can be useful for a scientific researcher.
 
 
-**Link to the preprint:** [BioRxiv](https://doi.org/10.1101/2025.01.24.634836)
+**Link to the paper describing BRAT:** [The Batch-Resourcing Angiogenesis Tool (BRAT) to enable high-throughput microscopy screening of microvascular networks](https://iopscience.iop.org/article/10.1088/1758-5090/ae00f6)
 
 **To Install, please see the "Releases" section on the right-hand side. Click there and the latest release will be available in .exe form**
 
